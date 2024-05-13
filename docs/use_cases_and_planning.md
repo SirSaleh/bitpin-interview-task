@@ -26,7 +26,7 @@ In this section I decided on models required for this task and fields of each
 | field name | type | description |
 | ---------- | ---- | ----------- |
 | id | integer - auto-increment | --- |
-| user_id | Foreign Key | uniqute_togeter(user_id, product_pk, rating) |
-| product_id | Foreign Key | uniqute_togeter(user_id, product_pk, rating) |
-| rating | SmallIntegerField | uniqute_togeter(user_id, product_pk, rating) |
+| user_id | Foreign Key | uniqute_togeter(user_id, product_pk) |
+| product_id | Foreign Key | uniqute_togeter(user_id, product_pk) |
+| rating | SmallIntegerField | ----- |
 
