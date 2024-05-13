@@ -39,11 +39,25 @@ pip3 install --upgrade pip
 Install the requirements of the python project inside the virtual environment:
 
 ```bash
-pip3 install --upgrade pip
+pip3 install -r requirements.txt
+```
+
+Change directory to bitpin django project
+
+```bash
+cd bitpin_task
+```
+
+run migrate to create database and tables initially
+
+```bash
+python3 manage.py migrate
+```
+
+Now you can run the development server for bitpin task
+
+```bash
+python3 manage.py runserver
 ```
 
 
-
-```
-
-```
