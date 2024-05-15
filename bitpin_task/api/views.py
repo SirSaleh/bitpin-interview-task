@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets
 from rest_framework.response import Response
 
 from .serializers import ProductSerializer
@@ -9,9 +9,7 @@ from .paginations import ProductPagination
 from market.models import Product
 
 
-class ProductViewSet(viewsets.ModelViewSet, mixins.UpdateModelMixin):#, mixins.RetrieveModelMixin, mixins.ListModelMixin,
-                     #mixins.CreateModelMixin, mixins.UpdateModelMixin,
-                     #mixins.DestroyModelMixin):
+class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = (ProductPermission, )
     pagination_class = ProductPagination
