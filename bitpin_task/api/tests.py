@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 
-from market.models import Product
+from market.models import Product, ProductRating
 
 
 class ProductEndpointsTest(APITestCase):
@@ -107,5 +107,61 @@ class ProductEndpointsTest(APITestCase):
         self.assertEqual(product_count_after, product_count_before-1)
 
 
+class ProductRatingEndpointsTest(APITestCase):
 
-        
+    def setUp(self):
+        self.logged_user_1 = APIClient()
+        self.product = Product.objects.create(title="test_bitpin_product")
+        self.product_2 = Product.objects.create(title="test_bitpin_product 2")
+
+        self.user = User.objects.create_user(username='testuser',
+                                             password='testpassword', is_superuser=False)
+        self.superuser = User.objects.create_superuser(username='superuser', 
+                                                       password='superpassword')
+
+        self.product_rating = ProductRating.objects.create(product=self.product, user=self.user, rating=2)
+        super().setUp()
+    
+    def test_retrieve_product_rating(self):
+        response = self.client.get(reverse('api:products_rating-detail',
+                                           kwargs={"product_pk": self.product.id, 
+                                                   "pk": self.product_rating.id}),
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], self.product_rating.id)
+        self.assertEqual(response.data['user']['username'], self.product_rating.user.username)
+    
+    def test_list_product_rating(self):
+        response = self.client.get(reverse('api:products_rating-list',
+                                           kwargs={"product_pk": self.product.id}),
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)
+    
+    def test_create_product_rating(self):
+        response = self.client.post(reverse('api:products_rating-list',
+                                           kwargs={"product_pk": self.product.id}),
+                                           data={'product_pk': self.product.id,
+                                                 'user_pk': self.user.id,
+                                                 'rating': 5},
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    
+    def test_patch_product_rating(self):
+        response = self.client.patch(reverse('api:products_rating-detail',
+                                           kwargs={"product_pk": self.product.id, 
+                                                   "pk": self.product_rating.id}),
+                                            data = {
+                                                'rating': 0
+                                            },
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['rating'], 0)
+    
+    def test_delete_product_rating(self):
+        response = self.client.delete(reverse('api:products_rating-detail',
+                                           kwargs={"product_pk": self.product.id, 
+                                                   "pk": self.product_rating.id}),
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+

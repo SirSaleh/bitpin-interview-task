@@ -1,12 +1,14 @@
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .serializers import ProductSerializer
-from .permissions import ProductPermission
-from .paginations import ProductPagination
+from .serializers import ProductSerializer, ProductRatingSerializer
+from .permissions import ProductPermission, ProductRatingPermission
+from .paginations import ProductPagination, ProductRatingPagination
 
-from market.models import Product
+from market.models import Product, ProductRating
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -21,3 +23,36 @@ class ProductViewSet(viewsets.ModelViewSet):
         qs = Product.objects.all()
         obj = get_object_or_404(qs, id=self.kwargs['pk'])
         return obj
+
+
+class ProductRatingViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductRatingSerializer
+    permission_classes = (ProductRatingPermission, )
+    pagination_class = ProductRatingPagination
+
+    def get_queryset(self):
+        return ProductRating.objects.all().order_by('-id')
+
+    def get_object(self):
+        qs = ProductRating.objects.all()
+        obj = get_object_or_404(qs, id=self.kwargs['pk'])
+        return obj
+    
+    def create(self, request, *args, **kwargs):
+        current_rating_qs = ProductRating.objects.filter(user__pk=self.request.data.get('user_pk'),
+                                                         product__pk=self.request.data.get('product_pk'))
+        
+        if current_rating_qs:
+            # There exist a rating from this user
+            # for this product, so it should be upgraded
+            product_rating = current_rating_qs.get()
+            product_rating.rating = self.request.data.get('rating')
+            product_rating.save()
+        else:
+            user = User.objects.get(id=self.request.data.get('user_pk'))
+            product = Product.objects.get(id=self.request.data.get('product_pk'))
+            product_rating = ProductRating.objects.create(user=user, product=product,
+                                         rating =int(self.request.data.get('rating')))
+        
+        return Response(self.serializer_class(product_rating, many=False).data, status=201)
+
