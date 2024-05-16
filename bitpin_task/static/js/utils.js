@@ -29,7 +29,7 @@ function loadContentByURL(url, holderID, itemCreatorCallBack, show_more_btn_id){
     })
 }
 
-function InitProducts(url, holderID, itemCreatorCallBack, show_more_btn_id){
+function InitListData(url, holderID, itemCreatorCallBack, show_more_btn_id){
     $("#"+holderID).html("");
     loadContentByURL(url, holderID, itemCreatorCallBack, show_more_btn_id);
 }

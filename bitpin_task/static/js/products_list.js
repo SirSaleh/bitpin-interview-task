@@ -7,5 +7,5 @@ function createProductItem(ProductData){
 }
 
 $(function(){
-    InitProducts("/api/products?page_size=5", "products_list", createProductItem, "products_show_more");
+    InitListData("/api/products?page_size=5", "products_list", createProductItem, "products_show_more");
 });
