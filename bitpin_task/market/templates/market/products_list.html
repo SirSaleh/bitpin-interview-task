@@ -1,0 +1,22 @@
+{% extends "market/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ block.super }} | Hi
+{% endblock %}
+
+{% block content %}
+
+    <h2>list of the products</h2>
+    <hr>
+    <div id="products_list">
+        loading...
+    </div>
+    <button id="products_show_more" style="display:none">Show more</button>
+{% endblock %}
+
+{% block post_js %}
+    {{ block.super }}
+
+    <script src="{% static 'js/products_list.js' %}"></script>
+{% endblock %}

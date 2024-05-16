@@ -1,0 +1,8 @@
+.product-item{
+    display: block;
+    width: auto;
+    padding: 10px 10px;
+    margin: 4px 2px;
+    background-color: gray;
+    border-radius: 4px;
+}

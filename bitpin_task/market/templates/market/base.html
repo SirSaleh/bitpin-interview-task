@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>BitPin Task | {% block title %} {% endblock %}</title>
+
+        {% block css %}
+            <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        {% endblock %}
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        {% block header %}
+            <h1>Bitpin Task</h1>
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% block footer %}
+            <hr>
+            Bitpin task
+        {% endblock %}
+
+        
+        {% block post_js %} 
+            <script src="{% static 'js/utils.js' %}"></script>
+        {% endblock %}
+        
+    </body>
+</html>
