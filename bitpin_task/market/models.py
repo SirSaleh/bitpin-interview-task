@@ -15,6 +15,7 @@ class ProductRating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("User"))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_("Product"))
     rating = models.SmallIntegerField(verbose_name=_("Rating"))
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = _("Product Rating")
