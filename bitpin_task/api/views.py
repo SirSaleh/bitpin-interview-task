@@ -42,7 +42,7 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
         if not self.request.user.is_authenticated:
             raise
         current_rating_qs = ProductRating.objects.filter(user__pk=self.request.user.id,
-                                                         product__pk=self.request.data.get('product_pk'))
+                                                         product__pk=self.kwargs['product_pk'])
         
         if current_rating_qs:
             # There exist a rating from this user
@@ -51,7 +51,7 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
             product_rating.rating = self.request.data.get('rating')
             product_rating.save()
         else:
-            product = Product.objects.get(id=self.request.data.get('product_pk'))
+            product = Product.objects.get(id=self.kwargs['product_pk'])
             product_rating = ProductRating.objects.create(user=self.request.user, product=product,
                                          rating =int(self.request.data.get('rating')))
         
