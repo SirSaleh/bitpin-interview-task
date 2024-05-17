@@ -1,0 +1,47 @@
+{% extends "market/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ block.super }} | Product Detail
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        <span id="product_name_elem"><span style="font-style: italic;">Loading Name of the Product...<span>
+
+        </span>
+    </h2>
+    <div>
+        {% if user.is_authenticated %}
+            Rate this Product:
+            <form>
+            <select id="rating_select">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="save_rating" type="button">Save</button>
+            </form>
+        {% else %}
+            Please login to rate this product.
+        {% endif %}
+    </div>
+    <hr>
+    <h2>Users Rating</h2>
+    <div id="rating_list">
+        loading...
+    </div>
+    <button id="ratings_show_more" style="display:none">Show more</button>
+
+    <input id="product_id_holder" type="hidden" value="{{ view.kwargs.pk }}">
+{% endblock %}
+
+{% block post_js %}
+    {{ block.super }}
+
+    <script src="{% static 'js/products_detail.js' %}"></script>
+{% endblock %}
