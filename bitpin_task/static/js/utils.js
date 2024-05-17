@@ -29,6 +29,9 @@ function loadContentByURL(url, holderID, itemCreatorCallBack, show_more_btn_id){
     })
 }
 
+function convertNumberToRating(rating){
+    return "★".repeat(rating) + "☆".repeat(5-rating);
+}
 
 function getCSRFToken(){
     $.ajaxSetup({ 

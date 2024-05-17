@@ -1,8 +1,8 @@
-function createProductItem(ProductData){
+function createProductItem(productData){
     return `
         <div class="product-item">
-            <a href="/products/${ProductData['id']}">
-            ${ProductData['title']}
+            <a href="/products/${productData['id']}">
+                ${productData['title']} ${convertNumberToRating(productData['overal_rating'])} (${productData['overal_rating']})
             </a>
         </div>
     `

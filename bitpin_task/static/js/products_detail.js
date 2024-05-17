@@ -15,11 +15,6 @@ function update_current_average(){
     $("#current_average").html();
 }
 
-
-function convertNumberToRating(rating){
-    return "★".repeat(rating) + "☆".repeat(5-rating);
-}
-
 function saveRating(product_id, rating){
     $.ajax({
         url: `/api/products/${product_id}/ratings/`,
