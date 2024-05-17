@@ -13,3 +13,10 @@ you can follow [this document](docs/development_deployment_docs.md) to deploy th
 
 For simplicity I just considered superusers to be able create products and non-super-users to be just users that rate the products.
 
+
+**Note**: After migration, Do not forget to createsuperuser, so you will be able to create products in the django admin or **craete product page**.
+
+```
+python3 manage.py createsuperuser
+```
+
