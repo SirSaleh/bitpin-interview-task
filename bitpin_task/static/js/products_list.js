@@ -1,7 +1,9 @@
 function createProductItem(ProductData){
     return `
         <div class="product-item">
+            <a href="/products/${ProductData['id']}">
             ${ProductData['title']}
+            </a>
         </div>
     `
 }
