@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'allauth',
+    'allauth.account',
 
     'market',
     'api'
@@ -52,7 +54,27 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+    # ============================================================
+    # FOR THE BITPIN TASK, I BYPASSED THESE FUNCTIONALITIES
+    # FOR SIMPLICITY OF SIGNUP PAGE
+    # ============================================================
+
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
+ACCOUNT_EMAIL_VERIFICATION  = "none"
+
+LOGIN_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'bitpin_task.urls'
 
@@ -90,18 +112,22 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # ============================================================
+    # FOR THE BITPIN TASK, I COMMENTED THESE LINE OF CODES
+    # FOR SIMPLICITY OF SIGNUP PAGE
+    # ============================================================
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 
