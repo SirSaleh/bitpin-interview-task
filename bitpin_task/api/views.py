@@ -31,7 +31,7 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
     pagination_class = ProductRatingPagination
 
     def get_queryset(self):
-        return ProductRating.objects.all().order_by('-id')
+        return ProductRating.objects.filter(product__id=self.kwargs['product_pk']).order_by('-id')
 
     def get_object(self):
         qs = ProductRating.objects.all()
