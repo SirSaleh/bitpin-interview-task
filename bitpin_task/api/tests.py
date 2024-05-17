@@ -139,15 +139,35 @@ class ProductRatingEndpointsTest(APITestCase):
         self.assertEqual(response.data['count'], 1)
     
     def test_create_product_rating(self):
+        # non logged in
         response = self.client.post(reverse('api:products_rating-list',
                                            kwargs={"product_pk": self.product.id}),
                                            data={'product_pk': self.product.id,
-                                                 'user_pk': self.user.id,
+                                                 'rating': 5},
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # logged in
+        self.client.force_login(self.user)
+        response = self.client.post(reverse('api:products_rating-list',
+                                           kwargs={"product_pk": self.product.id}),
+                                           data={'product_pk': self.product.id,
                                                  'rating': 5},
                                            format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
     
     def test_patch_product_rating(self):
+        response = self.client.patch(reverse('api:products_rating-detail',
+                                           kwargs={"product_pk": self.product.id, 
+                                                   "pk": self.product_rating.id}),
+                                            data = {
+                                                'rating': 0
+                                            },
+                                           format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+    
+        # check after login
+        self.client.force_login(self.user)
         response = self.client.patch(reverse('api:products_rating-detail',
                                            kwargs={"product_pk": self.product.id, 
                                                    "pk": self.product_rating.id}),
@@ -163,5 +183,5 @@ class ProductRatingEndpointsTest(APITestCase):
                                            kwargs={"product_pk": self.product.id, 
                                                    "pk": self.product_rating.id}),
                                            format='json')
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

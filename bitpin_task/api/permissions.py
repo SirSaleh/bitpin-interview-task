@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-
+from market.models import Product
 
 class ProductPermission(BasePermission):
 
@@ -18,8 +18,19 @@ class ProductPermission(BasePermission):
 
 class ProductRatingPermission(BasePermission):
 
+    def has_permission(self, request, view):
+        if request.method in ['POST', 'PATCH']:
+            if not request.user.is_authenticated:
+                return False
+            else:
+                return True
+        elif request.method == 'DELETE':
+            return False
+        else:
+            return True
+
     def has_object_permission(self, request, view, obj):
-        if request.method in ["GET", "POST"]:
+        if request.method in ["GET"]:
             # everyone can see details of the
             # ratings of the products and create
             # a new one

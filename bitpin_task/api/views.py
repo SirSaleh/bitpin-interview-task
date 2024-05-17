@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -39,7 +39,9 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
         return obj
     
     def create(self, request, *args, **kwargs):
-        current_rating_qs = ProductRating.objects.filter(user__pk=self.request.data.get('user_pk'),
+        if not self.request.user.is_authenticated:
+            raise
+        current_rating_qs = ProductRating.objects.filter(user__pk=self.request.user.id,
                                                          product__pk=self.request.data.get('product_pk'))
         
         if current_rating_qs:
@@ -49,9 +51,8 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
             product_rating.rating = self.request.data.get('rating')
             product_rating.save()
         else:
-            user = User.objects.get(id=self.request.data.get('user_pk'))
             product = Product.objects.get(id=self.request.data.get('product_pk'))
-            product_rating = ProductRating.objects.create(user=user, product=product,
+            product_rating = ProductRating.objects.create(user=self.request.user, product=product,
                                          rating =int(self.request.data.get('rating')))
         
         return Response(self.serializer_class(product_rating, many=False).data, status=201)
