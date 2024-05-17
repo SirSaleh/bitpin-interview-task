@@ -1,0 +1,19 @@
+{% extends "market/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ block.super }} | Create Product
+{% endblock %}
+
+{% block content %}
+    <form>
+        <input id="new_product_txt_input" placeholder="Enter the name of new product"></input>
+        <button type="button" id="new_product_save_btn">Save</button>
+    </form>
+{% endblock %}
+
+{% block post_js %}
+    {{ block.super }}
+
+    <script src="{% static 'js/products_create.js' %}"></script>
+{% endblock %}

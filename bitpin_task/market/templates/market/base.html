@@ -19,6 +19,11 @@
             {% else %}
                 <a href="{% url 'account_logout' %}">logout</a>
             {% endif %}
+            {% if user.is_superuser %}
+                <div class="new-product">
+                    <a href={% url 'market:create_product' %}>Create New Product</a>
+                <div>
+            {% endif %}
         {% endblock %}
 
         {% block content %}
