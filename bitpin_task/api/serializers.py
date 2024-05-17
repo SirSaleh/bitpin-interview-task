@@ -14,11 +14,15 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', "overal_rating"]
     
     def get_overal_rating(self, obj):
-        hourly_rating = ProductRating.objects.annotate(hour=TruncHour('timestamp'))
+        related_rating_qs = ProductRating.objects.filter(product=obj)
+        hourly_rating = related_rating_qs.annotate(hour=TruncHour('timestamp'))
         hourly_average_ratings = hourly_rating.values('hour').annotate(hourly_avg=Avg('rating'))
         overal_rating = hourly_average_ratings.aggregate(overall_avg=Avg('hourly_avg'))
 
-        return round(overal_rating['overall_avg'], 2)
+        if overal_rating['overall_avg']:
+            return round(overal_rating['overall_avg'], 2)
+        else:
+            return 0
 
 
 class UserSerializer(serializers.ModelSerializer):
