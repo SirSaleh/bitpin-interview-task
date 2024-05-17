@@ -1,13 +1,20 @@
 function showProductData(product_id){
     const productNameElem = $("#product_name_elem");
+    const overalRatingElem = $("#overal_rating_elem")
 
     $.ajax({
         url: '/api/products/' + String(product_id),
         success: function(response){
             productNameElem.html(response['title']);
+            overalRatingElem.html(response['overal_rating']);
         }
     })
 }
+
+function update_current_average(){
+    $("#current_average").html();
+}
+
 
 function convertNumberToRating(rating){
     return "★".repeat(rating) + "☆".repeat(5-rating);
