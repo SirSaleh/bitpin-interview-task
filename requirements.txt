@@ -2,3 +2,4 @@ django==4.2.1
 djangorestframework==3.15.1
 drf-nested-routers==0.94.1
 django-allauth==0.63.0
+django-braces==1.15.0
